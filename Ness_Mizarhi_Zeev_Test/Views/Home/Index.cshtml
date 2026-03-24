@@ -1,0 +1,27 @@
+﻿@* cshtml Views\Home\Index.cshtml *@
+@model Ness_Mizarhi_Zeev_Test.Core.Models.Operation
+
+@{
+    var model = Model;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Todo Details</title>
+</head>
+<body>
+    @if (model is null)
+    {
+        <h2>Todo not found or API call failed.</h2>
+    }
+    else
+    {
+        <h2>Todo @Model.Id </h2>
+        <p><strong>Title:</strong>@Model.Title </p>
+        <p><strong>UserId:</strong> @Model.UserId </p>
+        
+    }
+</body>
+</html>

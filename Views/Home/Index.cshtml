@@ -1,0 +1,26 @@
+@model Ness_Mizarhi_Zeev_Test.Core.Models.Operation
+
+@{
+    model = Model;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Operation Details</title>
+</head>
+<body>
+    @if (model is null)
+    {
+        <h2>Operation not found.</h2>
+    }
+    else
+    {
+        <h2>Operation @model.Id</h2>
+        <p><strong>Title:</strong> @model.Title</p>
+        <p><strong>UserId:</strong> @model.UserId</p>
+        <p><strong>Completed:</strong> @model.Completed.ToString("g")</p>
+    }
+</body>
+</html>
