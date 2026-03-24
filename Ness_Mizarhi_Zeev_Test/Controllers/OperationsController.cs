@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Ness_Mizarhi_Zeev_Test.Core.Queries.Operations.Create;
+using Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Create;
 
 namespace Ness_Mizarhi_Zeev_Test.Controllers
 {

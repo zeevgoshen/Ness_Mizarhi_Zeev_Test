@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using System.Collections.Generic;
 
-namespace Ness_Mizarhi_Zeev_Test.Core.Queries.Operations.Create
+namespace Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Create
 {
     public class CreateNewOperationCommandHandler : IRequestHandler<CreateNewOperationCommand, CreateNewOperationResponse>
     {

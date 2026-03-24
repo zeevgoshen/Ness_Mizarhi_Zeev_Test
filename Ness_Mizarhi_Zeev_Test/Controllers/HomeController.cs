@@ -6,6 +6,7 @@ namespace Ness_Mizarhi_Zeev_Test.Controllers
     {
         public IActionResult Index()
         {
+
             return View();
         }
     }

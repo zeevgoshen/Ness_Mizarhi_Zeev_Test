@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Ness_Mizarhi_Zeev_Test.Core.Queries.Operations.Create
+namespace Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Create
 {
     public class CreateNewOperationCommand : IRequest<CreateNewOperationResponse>
     {

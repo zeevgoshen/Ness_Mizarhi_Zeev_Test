@@ -1,27 +1,54 @@
-﻿@* cshtml Views\Home\Index.cshtml *@
-@model Ness_Mizarhi_Zeev_Test.Core.Models.Operation
+﻿<div>
+    @* @* cshtml Views\Home\Index.cshtml *@
+    @model Ness_Mizarhi_Zeev_Test.Core.Models.Operation
 
-@{
-    var model = Model;
-}
+    @{
+        var model = Model;
+    }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>Todo Details</title>
-</head>
-<body>
-    @if (model is null)
-    {
-        <h2>Todo not found or API call failed.</h2>
-    }
-    else
-    {
-        <h2>Todo @Model.Id </h2>
-        <p><strong>Title:</strong>@Model.Title </p>
-        <p><strong>UserId:</strong> @Model.UserId </p>
-        
-    }
-</body>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Todo Details</title>
+    </head>
+    <body>
+
+        <table>
+            <tr>
+                <td><label>Field A</label></td>
+                <td><input type="text" value="" /></td>
+                <td><label>Operation</label></td>
+                <td>
+                    <select name="cars" id="cars">
+                        <option value="volvo">Volvo</option>
+                        <option value="saab">Saab</option>
+                        <option value="mercedes">Mercedes</option>
+                        <option value="audi">Audi</option>
+                    </select>
+                </td>
+                <td><label>Field B</label></td>
+                <td><input type="text" value="" /></td>
+                <td><input type="Button" value="Calculate" /></td>
+                <td>
+                    <textarea id="w3review" name="w3review" rows="4" cols="50"></textarea>
+                </td>
+            </tr>
+        </table>
+
+
+
+        @if (model is null)
+        {
+            <h2>Todo not found or API call failed.</h2>
+        }
+        else
+        {
+            <h2>Todo @Model.Id </h2>
+            <p><strong>Title:</strong>@Model.Title </p>
+            <p><strong>UserId:</strong> @Model.UserId </p>
+
+        }
+    </body>
 </html>
+</div>
