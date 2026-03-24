@@ -1,5 +1,7 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Ness_Mizarhi_Zeev_Test.Core.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,10 @@ builder.Services.AddControllersWithViews();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 //builder.Services.AddMediatR(typeof(Program).Assembly);
+
+builder.Services.AddDbContext<MathOperationsDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MathOperationsConnection")));
+
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly));
 

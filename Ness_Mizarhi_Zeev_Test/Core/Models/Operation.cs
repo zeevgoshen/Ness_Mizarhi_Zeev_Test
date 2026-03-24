@@ -2,9 +2,8 @@
 {
     public class Operation
     {
-            public Guid Id { get; set; }
-            public string Title { get; set; } = default!;
-            public string? UserId { get; set; }
-            public DateTime Completed { get; set; }
+            public int OperationId { get; set; }
+            public string Operator { get; set; } = default!;
+            public string? OperationName { get; set; }
     }
 }
