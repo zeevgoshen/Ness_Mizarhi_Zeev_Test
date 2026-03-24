@@ -1,0 +1,6 @@
+@Ness_Mizarhi_Zeev_Test_HostAddress = http://localhost:5095
+
+GET {{Ness_Mizarhi_Zeev_Test_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
