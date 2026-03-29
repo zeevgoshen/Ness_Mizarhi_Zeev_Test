@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Ness_Mizarhi_Zeev_Test.Core.Data;
+using Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Create;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +34,10 @@ builder.Services.AddHttpClient("ExternalApi", client =>
 
 builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();
+
+
+builder.Services.AddScoped<IWriteDbContext>(provider =>
+    provider.GetRequiredService<MathOperationsDbContext>());
 
 var app = builder.Build();
 

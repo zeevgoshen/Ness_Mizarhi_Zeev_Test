@@ -1,6 +1,6 @@
 ﻿<div>
     @* @* cshtml Views\Home\Index.cshtml *@
-    @model Ness_Mizarhi_Zeev_Test.Core.Models.Operation
+    @model List<Ness_Mizarhi_Zeev_Test.Core.Models.Operation>
 
     @{
         var model = Model;
@@ -11,20 +11,53 @@
     <head>
         <meta charset="utf-8" />
         <title>Todo Details</title>
+
+        <script>
+            function createItem() {
+                const item = {
+                    Name: document.getElementById("newOperator").value,
+                    //price: parseFloat(document.getElementById("price").value)
+                };
+
+                fetch('/operations/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(item)
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error("Failed to create item");
+                    return response.json();
+                })
+                .then(data => {
+                    alert("Item created! ID: " + data.id);
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert("Error creating item");
+                });
+            }
+        </script>
     </head>
     <body>
 
         <table>
+            <tr>
+                <td><input type="button" value="Insert command" onclick="createItem()" id="newOperatorBtn" /></td>
+                <td><input type="text" value="" id="newOperator" /></td>
+            </tr>
             <tr>
                 <td><label>Field A</label></td>
                 <td><input type="text" value="" /></td>
                 <td><label>Operation</label></td>
                 <td>
                     <select name="cars" id="cars">
-                        <option value="volvo">Volvo</option>
-                        <option value="saab">Saab</option>
-                        <option value="mercedes">Mercedes</option>
-                        <option value="audi">Audi</option>
+                        @foreach (var op in Model)
+                        {
+                            <option value="@op.OperationId">@op.Operator</option>
+                        }
                     </select>
                 </td>
                 <td><label>Field B</label></td>
@@ -36,19 +69,22 @@
             </tr>
         </table>
 
+        @*  for TESTING PURPOSES ONLY, to check if the API call is working and the data is being 
 
-
+        passed to the view correctly. Remove this section in production. 
         @if (model is null)
         {
             <h2>Todo not found or API call failed.</h2>
         }
         else
         {
-            <h2>Id @Model.OperationId </h2>
-            <p><strong>Operator:</strong>@Model.Operator</p>
-            <p><strong>Operation Name:</strong> @Model.OperationName </p>
-
-        }
+            @foreach (var item in Model)
+            {
+                <p><strong>Operator:</strong> </p>
+                <p><strong>@item.Operator</strong> </p>
+                
+             } 
+        } *@
     </body>
 </html>
 </div>

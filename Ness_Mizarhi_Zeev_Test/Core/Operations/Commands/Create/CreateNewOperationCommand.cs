@@ -7,6 +7,6 @@ namespace Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Create
         public string Name { get; set; } = default!;
 
         /// <summary>Optional description.</summary>
-        public string? Description { get; set; }
+        public string? Description { get; set; } = default!;
     }
 }

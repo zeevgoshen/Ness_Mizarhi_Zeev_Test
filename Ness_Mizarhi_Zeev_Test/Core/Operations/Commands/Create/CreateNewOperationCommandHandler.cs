@@ -1,29 +1,30 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Ness_Mizarhi_Zeev_Test.Core.Models;
 using System.Collections.Generic;
 
 namespace Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Create
 {
     public class CreateNewOperationCommandHandler : IRequestHandler<CreateNewOperationCommand, CreateNewOperationResponse>
     {
-        //private readonly IWriteDbContext _db;
+        private readonly IWriteDbContext _db;
 
-        public CreateNewOperationCommandHandler(/*IWriteDbContext db*/)
+        public CreateNewOperationCommandHandler(IWriteDbContext db)
         {
-            //_db = db;
+            _db = db;
         }
 
         public async Task<CreateNewOperationResponse> Handle(CreateNewOperationCommand request, CancellationToken cancellationToken)
         {
-            //var entity = new Record
-            //{
-            //    Id = Guid.NewGuid(),
-            //    Name = request.Name.Trim(),
-            //    Description = request.Description?.Trim(),
-            //    CreatedAtUtc = DateTime.UtcNow
-            //};
+            var operation = new Operation
+            {
+                Operator = request.Name.Trim(),
+                //Description = request.Description?.Trim(),
+                //CreatedAtUtc = DateTime.UtcNow
+            };
 
-            //_db.Records.Add(entity);
-            //await _db.SaveChangesAsync(cancellationToken);
+            var result = _db.Operations.Add(operation);
+            await _db.SaveChangesAsync(cancellationToken);
 
             return new CreateNewOperationResponse
             {
@@ -41,8 +42,7 @@ namespace Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Create
     /// </summary>
     public interface IWriteDbContext
     {
-        //DbSet<Record> Records { get; }
-        //Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+        DbSet<Operation> Operations { get; }
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
-
 }

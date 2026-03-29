@@ -13,7 +13,7 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        Operation? op = await _db.Operations.FirstOrDefaultAsync();
+        var op = await _db.Operations.ToListAsync();
         return View(op);
     }
 }
