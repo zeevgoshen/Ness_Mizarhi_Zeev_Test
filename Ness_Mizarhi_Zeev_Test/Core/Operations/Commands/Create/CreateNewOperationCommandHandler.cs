@@ -19,24 +19,20 @@ namespace Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Create
             var operation = new Operation
             {
                 Operator = request.Name.Trim(),
-                //Description = request.Description?.Trim(),
-                //CreatedAtUtc = DateTime.UtcNow
+                OperationName = request.Description?.Trim()
             };
 
-            var dbSet = _db.Operations;
+            bool exists = await _db.Operations.AnyAsync(x => x.Operator == operation.Operator);
 
-            if (!dbSet.ContainsAsync(operation).Result)
+            if (!exists)
             {
-                dbSet.AddAsync(operation);
+                await _db.Operations.AddAsync(operation);
+                await _db.SaveChangesAsync(cancellationToken);
             }
-            await _db.SaveChangesAsync(cancellationToken);
 
             return new CreateNewOperationResponse
             {
-                //Id = entity.Id,
-                //Name = entity.Name,
-                //Description = entity.Description,
-                //CreatedAtUtc = entity.CreatedAtUtc
+                
             };
         }
     }

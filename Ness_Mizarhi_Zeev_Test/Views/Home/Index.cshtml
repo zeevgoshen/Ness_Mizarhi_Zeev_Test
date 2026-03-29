@@ -48,50 +48,57 @@
 
             async function createItem() {
 
-                debugger;
                 let value = document.getElementById("newOperator").value;
+                let description = document.getElementById("operatorDescription").value;
 
                  if (!value) {
                     alert("Please enter an operator");
-                    input.focus();
                     return;
                 }
 
                 const item = {
                     Name: value,
-                    //price: parseFloat(document.getElementById("price").value)
+                    Description: description
                 };
 
-                await fetch('/operations/create', {
+                const response = await fetch('/operations/create', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(item)
                 });
+                console.log(response);
                 const data = await response.json();
 
                 if (!response.ok) {
                     throw new Error("Failed to create item");
                 }
                     
+                document.getElementById("newOperator").value = "";
+                document.getElementById("operatorDescription").value = "";
                 refreshOperations();
-                
             }
 
             async function refreshOperations() {
-                //alert();
-                debugger;
-                await fetch('/operations/GetOperations');
+                //const response = await fetch('/operations/GetOperations');
+
+                const response = await fetch('/operations/GetOperations', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                });
+
                 const data = await response.json();
-                   
                 const select = document.getElementById("operations");
 
                 // clear existing options
                 select.innerHTML = "";
 
                 // rebuild
-                data.forEach(op => {
+                data.operators.forEach(op => {
                     const option = document.createElement("option");
                     option.value = op.operationId;
                     option.text = op.operator;
@@ -154,6 +161,7 @@
             <div class="row">
                 <input type="button" value="Insert command" onclick="createItem()" id="newOperatorBtn" />
                 <input type="text" id="newOperator" placeholder="Enter new operator..." />
+                <input type="text" id="operatorDescription" placeholder="Enter new operator description..." />
             </div>
 
             <!-- Main calculation row -->

@@ -4,6 +4,6 @@ namespace Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Calculate
 {
     public class CalculateOperationResponse
     {
-        public int Result {get;set;}
+        public int? Result {get;set;}
     }
 }
