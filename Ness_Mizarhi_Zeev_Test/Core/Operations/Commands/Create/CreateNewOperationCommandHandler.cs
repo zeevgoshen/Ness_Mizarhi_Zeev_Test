@@ -23,7 +23,12 @@ namespace Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Create
                 //CreatedAtUtc = DateTime.UtcNow
             };
 
-            var result = _db.Operations.Add(operation);
+            var dbSet = _db.Operations;
+
+            if (!dbSet.ContainsAsync(operation).Result)
+            {
+                dbSet.AddAsync(operation);
+            }
             await _db.SaveChangesAsync(cancellationToken);
 
             return new CreateNewOperationResponse

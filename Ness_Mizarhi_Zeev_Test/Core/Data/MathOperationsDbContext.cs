@@ -20,15 +20,15 @@ public class MathOperationsDbContext : DbContext, IWriteDbContext
         });
     }
 
-    // Returns all operations asynchronously
-    public Task<List<Operation>> GetAllOperationsAsync(CancellationToken cancellationToken = default) =>
-        Operations
-            .AsNoTracking()
-            .ToListAsync(cancellationToken);
+    //// Returns all operations asynchronously
+    //public Task<List<Operation>> GetAllOperationsAsync(CancellationToken cancellationToken = default) =>
+    //    Operations
+    //        .AsNoTracking()
+    //        .ToListAsync(cancellationToken);
 
-    // Synchronous convenience method
-    public List<Operation> GetAllOperations() =>
-        Operations
-            .AsNoTracking()
-            .ToList();
+    //// Synchronous convenience method
+    //public List<Operation> GetAllOperations() =>
+    //    Operations
+    //        .AsNoTracking()
+    //        .ToList();
 }

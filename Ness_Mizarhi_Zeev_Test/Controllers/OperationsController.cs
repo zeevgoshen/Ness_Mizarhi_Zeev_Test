@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Ness_Mizarhi_Zeev_Test.Core.Models;
+using Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Calculate;
 using Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Create;
 
 namespace Ness_Mizarhi_Zeev_Test.Controllers
@@ -22,14 +23,25 @@ namespace Ness_Mizarhi_Zeev_Test.Controllers
         public async Task<ActionResult<CreateNewOperationResponse>> Create([FromBody] CreateNewOperationCommand command)
         {
             var result = await _mediator.Send(command);
+            //return result;
             return CreatedAtAction(nameof(Create), new {  }, result);
         }
 
+        [HttpPost]
+        [Route("calculate")]
+        public async Task<ActionResult<CalculateOperationResponse>> Calculate([FromBody] CalculateOperationCommand command)
+        {
+            var result = await _mediator.Send(command);
+            //return result;
+            return CreatedAtAction(nameof(Calculate), new { }, result);
+        }
 
-        [HttpGet(Name = "GetOperations")]
+
+        [HttpGet]
+        [Route("GetOperations")]
         public IEnumerable<Operation> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new Operation
+            return Enumerable.Range(1, 100).Select(index => new Operation
             {
             })
             .ToArray();

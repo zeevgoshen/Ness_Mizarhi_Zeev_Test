@@ -7,67 +7,181 @@
     }
 
     <!DOCTYPE html>
-    <html>
     <head>
         <meta charset="utf-8" />
         <title>Todo Details</title>
 
         <script>
-            function createItem() {
+
+            async function calculate() {
+                // Get values from the form
+                const fieldA = document.getElementById("FieldA").value;
+                const fieldB = document.getElementById("FieldB").value;
+                const select = document.getElementById("operations");
+                const operator = select.options[select.selectedIndex].text;
+
+                const resultBox = document.getElementById("result");
+
+                try {
+                    const response = await fetch('/operations/calculate', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ fieldA, fieldB, operator })
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        resultBox.value = data.result ?? "Calculation failed";
+                        return;
+                    }
+
+                    resultBox.value = data.result;
+                }
+                catch (error) {
+                    resultBox.value = "Unexpected error";
+                }
+
+            }
+
+            async function createItem() {
+
+                debugger;
+                let value = document.getElementById("newOperator").value;
+
+                 if (!value) {
+                    alert("Please enter an operator");
+                    input.focus();
+                    return;
+                }
+
                 const item = {
-                    Name: document.getElementById("newOperator").value,
+                    Name: value,
                     //price: parseFloat(document.getElementById("price").value)
                 };
 
-                fetch('/operations/create', {
+                await fetch('/operations/create', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(item)
-                })
-                .then(response => {
-                    if (!response.ok) throw new Error("Failed to create item");
-                    return response.json();
-                })
-                .then(data => {
-                    alert("Item created! ID: " + data.id);
-                    console.log(data);
-                })
-                .catch(error => {
-                    console.error(error);
-                    alert("Error creating item");
+                });
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error("Failed to create item");
+                }
+                    
+                refreshOperations();
+                
+            }
+
+            async function refreshOperations() {
+                //alert();
+                debugger;
+                await fetch('/operations/GetOperations');
+                const data = await response.json();
+                   
+                const select = document.getElementById("operations");
+
+                // clear existing options
+                select.innerHTML = "";
+
+                // rebuild
+                data.forEach(op => {
+                    const option = document.createElement("option");
+                    option.value = op.operationId;
+                    option.text = op.operator;
+                    select.appendChild(option);
                 });
             }
         </script>
+
+        <style>
+            .form-container {
+                max-width: 800px;
+                margin: 20px auto;
+                font-family: Arial, sans-serif;
+            }
+
+            .row {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 15px;
+                flex-wrap: wrap;
+            }
+
+                .row label {
+                    min-width: 80px;
+                    font-weight: bold;
+                }
+
+            input, select, textarea {
+                padding: 6px 10px;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+            }
+
+                button, input[type="button"] {
+                    padding: 6px 12px;
+                    border: none;
+                    border-radius: 6px;
+                    background-color: #007bff;
+                    color: white;
+                    cursor: pointer;
+                }
+
+                    button:hover, input[type="button"]:hover {
+                        background-color: #0056b3;
+                    }
+
+            textarea {
+                width: 100%;
+                resize: vertical;
+            }
+        </style>
+
     </head>
     <body>
 
-        <table>
-            <tr>
-                <td><input type="button" value="Insert command" onclick="createItem()" id="newOperatorBtn" /></td>
-                <td><input type="text" value="" id="newOperator" /></td>
-            </tr>
-            <tr>
-                <td><label>Field A</label></td>
-                <td><input type="text" value="" /></td>
-                <td><label>Operation</label></td>
-                <td>
-                    <select name="cars" id="cars">
-                        @foreach (var op in Model)
-                        {
-                            <option value="@op.OperationId">@op.Operator</option>
-                        }
-                    </select>
-                </td>
-                <td><label>Field B</label></td>
-                <td><input type="text" value="" /></td>
-                <td><input type="Button" value="Calculate" /></td>
-                <td>
-                    <textarea id="w3review" name="w3review" rows="4" cols="50"></textarea>
-                </td>
-            </tr>
-        </table>
+        <div class="form-container">
+
+            <!-- Insert command -->
+            <div class="row">
+                <input type="button" value="Insert command" onclick="createItem()" id="newOperatorBtn" />
+                <input type="text" id="newOperator" placeholder="Enter new operator..." />
+            </div>
+
+            <!-- Main calculation row -->
+            <div class="row">
+                <label>Field A</label>
+                <input type="text" id="FieldA"/>
+
+                <label>Operation</label>
+                <select name="operationId" id="operations">
+                    @foreach (var op in Model)
+                    {
+                        <option value="@op.OperationId">@op.Operator</option>
+                    }
+                </select>
+
+                <label>Field B</label>
+                <input type="text" id="FieldB" />
+
+                <input type="button" value="Calculate" onclick="calculate()" />
+            </div>
+
+            <!-- Result -->
+            <div class="row">
+                <label>Result</label>
+                <textarea id="result" rows="3"></textarea>
+            </div>
+
+        </div>
 
         @*  for TESTING PURPOSES ONLY, to check if the API call is working and the data is being 
 
