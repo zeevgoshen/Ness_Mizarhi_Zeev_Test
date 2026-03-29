@@ -14,24 +14,15 @@ namespace Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Calculate
         //    _db = db;
         //}
 
-        public async Task<CalculateOperationResponse> Handle(CalculateOperationCommand request, CancellationToken cancellationToken)
+        public Task<CalculateOperationResponse> Handle(CalculateOperationCommand request, CancellationToken cancellationToken)
         {
-            if(TryCalculate(request.FieldA, request.Operator, request.FieldB, out int res))
-            {
-                return new CalculateOperationResponse
-                {
-                    Result = res
-                };
-            }
-            else
-            {
-                return new CalculateOperationResponse
-                {
-                    Result = null
-                };
-            }
-        }
+            TryCalculate(request.FieldA, request.Operator, request.FieldB, out int res);
 
+            return Task.FromResult(new CalculateOperationResponse
+            {
+                Result = res
+            });
+        }
         public static bool TryCalculate(string a, string op, string b, out int result)
         {
             try

@@ -1,0 +1,85 @@
+﻿async function calculate() {
+    const fieldA = document.getElementById("FieldA").value;
+    const fieldB = document.getElementById("FieldB").value;
+    const select = document.getElementById("operations");
+    const operator = select.options[select.selectedIndex].text;
+
+    const resultBox = document.getElementById("result");
+
+    try {
+        const response = await fetch('/operations/calculate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ fieldA, fieldB, operator })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            resultBox.value = data.result ?? "Calculation failed";
+            return;
+        }
+
+        resultBox.value = data.result;
+    } catch (error) {
+        resultBox.value = "Unexpected error";
+    }
+}
+
+async function createItem() {
+    let value = document.getElementById("newOperator").value;
+    let description = document.getElementById("operatorDescription").value;
+
+    if (!value) {
+        alert("Please enter an operator");
+        return;
+    }
+
+    const item = {
+        Name: value,
+        Description: description
+    };
+
+    const response = await fetch('/operations/create', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(item)
+    });
+
+    console.log(response);
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error("Failed to create item");
+    }
+
+    document.getElementById("newOperator").value = "";
+    document.getElementById("operatorDescription").value = "";
+    refreshOperations();
+}
+
+async function refreshOperations() {
+    const response = await fetch('/operations/GetOperations', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+    });
+
+    const data = await response.json();
+    const select = document.getElementById("operations");
+
+    select.innerHTML = "";
+
+    data.operators.forEach(op => {
+        const option = document.createElement("option");
+        option.value = op.operationId;
+        option.text = op.operator;
+        select.appendChild(option);
+    });
+}

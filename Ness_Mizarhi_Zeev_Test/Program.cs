@@ -39,7 +39,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<IWriteDbContext>(provider =>
     provider.GetRequiredService<MathOperationsDbContext>());
 
+
+
 var app = builder.Build();
+
+app.UseStaticFiles();
+
+app.UseRouting();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
