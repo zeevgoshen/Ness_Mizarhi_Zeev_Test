@@ -27,7 +27,7 @@ namespace Ness_Mizarhi_Zeev_Test.Controllers
             var result = await _mediator.Send(command);
 
             return CreatedAtAction(null,
-                //nameof(GetById),           // you need a GET endpoint
+                //nameof(GetById),
                 new { id = result.Id },    // route values
                 result                     // response body
             );
