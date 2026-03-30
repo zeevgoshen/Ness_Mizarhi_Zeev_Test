@@ -7,13 +7,6 @@ namespace Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Calculate
 {
     public class CalculateOperationCommandHandler : IRequestHandler<CalculateOperationCommand, CalculateOperationResponse>
     {
-        //private readonly IWriteDbContext _db;
-
-        //public CalculateOperationCommandHandler(IWriteDbContext db)
-        //{
-        //    _db = db;
-        //}
-
         public Task<CalculateOperationResponse> Handle(CalculateOperationCommand request, CancellationToken cancellationToken)
         {
             if (!TryCalculate(request.FieldA, request.Operator, request.FieldB, out int res))
@@ -58,14 +51,4 @@ namespace Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Calculate
             }
         }
     }
-
-    /// <summary>
-    /// Abstraction of the write-side DbContext.
-    /// Provide an EF Core implementation in your Infrastructure layer.
-    /// </summary>
-    //public interface IWriteDbContext
-    //{
-    //    DbSet<Operation> Operations { get; }
-    //    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-    //}
 }

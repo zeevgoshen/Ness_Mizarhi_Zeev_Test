@@ -7,7 +7,7 @@
     const resultBox = document.getElementById("result");
     resultBox.value = "";
     try {
-        const response = await fetch('/operations/calculate', {
+        const response = await fetch('/operations/Calculate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -42,7 +42,7 @@ async function createOperator() {
         Description: description
     };
 
-    const response = await fetch('/operations/create', {
+    const response = await fetch('/operations/Create', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

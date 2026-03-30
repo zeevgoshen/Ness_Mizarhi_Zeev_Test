@@ -21,30 +21,32 @@ namespace Ness_Mizarhi_Zeev_Test.Controllers
         }
 
         [HttpPost]
-        [Route("create")]
-        public async Task<CreateNewOperationResponse> Create([FromBody] CreateNewOperationCommand command)
+        [Route("Create")]
+        public async Task<ActionResult<CreateNewOperationResponse>> Create([FromBody] CreateNewOperationCommand command)
         {
             var result = await _mediator.Send(command);
-            return result;
-            //return HttpStatusCode.Created;
+
+            return CreatedAtAction(null,
+                //nameof(GetById),           // you need a GET endpoint
+                new { id = result.Id },    // route values
+                result                     // response body
+            );
         }
 
         [HttpPost]
-        [Route("calculate")]
-        public async Task<CalculateOperationResponse> Calculate([FromBody] CalculateOperationCommand command)
+        [Route("Calculate")]
+        public async Task<ActionResult<CalculateOperationResponse>> Calculate([FromBody] CalculateOperationCommand command)
         {
             var result = await _mediator.Send(command);
-            return result;
-            //return CreatedAtAction(nameof(Calculate), new { }, result);
+            return Ok(result);
         }
-
 
         [HttpGet]
         [Route("GetOperations")]
-        public async Task<GetAllOperationsResponse> GetOperators([FromQuery] GetAllOperationsQuery query)
+        public async Task<ActionResult<GetAllOperationsResponse>> GetOperators([FromQuery] GetAllOperationsQuery query)
         {
             var result = await _mediator.Send(query);
-            return result;
+            return Ok(result);
         }
     }
 }
