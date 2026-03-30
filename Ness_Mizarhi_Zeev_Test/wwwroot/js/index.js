@@ -1,11 +1,24 @@
-﻿async function calculate() {
+﻿async function calculate(event) {
+
+    event.preventDefault(); // stops form submission
+
+    const form = document.getElementById("calcForm");
+
+    if (!form.checkValidity()) {
+        //resultBox.value = form.reportValidity(); // shows browser messages
+        return;
+    }
+
     const fieldA = document.getElementById("FieldA").value;
     const fieldB = document.getElementById("FieldB").value;
     const select = document.getElementById("operations");
-    const operator = select.options[select.selectedIndex].text;
-
+    
     const resultBox = document.getElementById("result");
     resultBox.value = "";
+
+    const operator = select.options[select.selectedIndex].innerText;
+
+    
     try {
         const response = await fetch('/operations/Calculate', {
             method: 'POST',
@@ -23,6 +36,7 @@
         }
 
         resultBox.value = data.result;
+        
     } catch (error) {
         resultBox.value = "Unexpected error";
     }
