@@ -1,8 +1,11 @@
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Ness_Mizarhi_Zeev_Test.Core.Data;
+using Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Calculate;
 using Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Create;
+using Ness_Mizarhi_Zeev_Test.Core.Validations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,9 +23,14 @@ builder.Services.AddDbContext<MathOperationsDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MathOperationsConnection")));
 
 
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly));
+builder.Services.AddMediatR(cfg => 
+{
+    cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly);
+    cfg.RegisterServicesFromAssemblyContaining<CalculateOperationCommand>();
+    cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
+});
 
-
+builder.Services.AddValidatorsFromAssemblyContaining<CalculateOperationCommandValidator>();
 
 builder.Services.AddHttpClient("ExternalApi", client =>
 {

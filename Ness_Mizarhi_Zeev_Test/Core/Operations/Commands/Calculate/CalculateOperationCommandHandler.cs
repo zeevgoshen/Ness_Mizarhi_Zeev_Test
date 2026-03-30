@@ -30,31 +30,27 @@ namespace Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Calculate
             });
         }
 
-        private void SaveCalculationToStorage(string fieldA, string @operator, string fieldB, int res)
+        private void SaveCalculationToStorage(int fieldA, string @operator, int fieldB, int res)
         {
             //throw new NotImplementedException();
         }
 
-        public static bool TryCalculate(string a, string op, string b, out int result)
+        public static bool TryCalculate(int fieldA, string op, int fieldB, out int result)
         {
             try
             {
                 result = 0;
 
-                if (!int.TryParse(a, out int num1) || !int.TryParse(b, out int num2))
-                    return false;
-
                 result = op switch
                 {
-                    "+" => num1 + num2,
-                    "-" => num1 - num2,
-                    "*" => num1 * num2,
-                    "/" when num2 != 0 => num1 / num2,
+                    "+" => fieldA + fieldB,
+                    "-" => fieldA - fieldB,
+                    "*" => fieldA * fieldB,
+                    "/" when fieldB != 0 => fieldA / fieldB,
                     _ => throw new InvalidOperationException("Invalid operator")
                 };
 
                 return true;
-
             }
             catch (Exception ex)
             {
