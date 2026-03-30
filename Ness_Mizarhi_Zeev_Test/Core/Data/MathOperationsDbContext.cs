@@ -10,6 +10,8 @@ public class MathOperationsDbContext : DbContext, IWriteDbContext
 
     public DbSet<Operation> Operations { get; set; } = null!;
 
+    // add table Calculations...
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Operation>(b =>

@@ -18,7 +18,7 @@
 
         <!-- Insert command -->
         <div class="row">
-            <input type="button" value="Insert command" onclick="createItem()" id="newOperatorBtn" />
+            <input type="button" value="Insert command" onclick="createOperator()" id="newOperatorBtn" />
             <input type="text" id="newOperator" placeholder="Enter new operator..." />
             <input type="text" id="operatorDescription" placeholder="Enter new operator description..." />
         </div>
@@ -26,7 +26,7 @@
         <!-- Main calculation row -->
         <div class="row">
             <label>Field A</label>
-            <input type="text" id="FieldA" />
+            <input type="number" id="FieldA" />
 
             <label>Operation</label>
             <select name="operationId" id="operations">
@@ -37,7 +37,7 @@
             </select>
 
             <label>Field B</label>
-            <input type="text" id="FieldB" />
+            <input type="number" id="FieldB" />
 
             <input type="button" value="Calculate" onclick="calculate()" />
         </div>

@@ -5,7 +5,7 @@
     const operator = select.options[select.selectedIndex].text;
 
     const resultBox = document.getElementById("result");
-
+    resultBox.value = "";
     try {
         const response = await fetch('/operations/calculate', {
             method: 'POST',
@@ -28,7 +28,7 @@
     }
 }
 
-async function createItem() {
+async function createOperator() {
     let value = document.getElementById("newOperator").value;
     let description = document.getElementById("operatorDescription").value;
 

@@ -16,13 +16,25 @@ namespace Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Calculate
 
         public Task<CalculateOperationResponse> Handle(CalculateOperationCommand request, CancellationToken cancellationToken)
         {
-            TryCalculate(request.FieldA, request.Operator, request.FieldB, out int res);
+            if (!TryCalculate(request.FieldA, request.Operator, request.FieldB, out int res))
+                return Task.FromResult(new CalculateOperationResponse
+                {
+                    Result = -9999
+                });
+
+            SaveCalculationToStorage(request.FieldA, request.Operator, request.FieldB, res);
 
             return Task.FromResult(new CalculateOperationResponse
             {
                 Result = res
             });
         }
+
+        private void SaveCalculationToStorage(string fieldA, string @operator, string fieldB, int res)
+        {
+            //throw new NotImplementedException();
+        }
+
         public static bool TryCalculate(string a, string op, string b, out int result)
         {
             try
@@ -46,7 +58,7 @@ namespace Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Calculate
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
     }
