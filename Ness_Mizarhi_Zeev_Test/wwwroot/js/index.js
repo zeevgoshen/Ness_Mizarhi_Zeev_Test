@@ -9,8 +9,14 @@
         return;
     }
 
-    const fieldA = document.getElementById("FieldA").value;
-    const fieldB = document.getElementById("FieldB").value;
+    const fieldA = parseFloat(document.getElementById("FieldA").value);
+    const fieldB = parseFloat(document.getElementById("FieldB").value);
+
+    if (isNaN(fieldA) || isNaN(fieldB)) {
+        resultBox.value = "Please enter valid numbers.";
+        return;
+    }
+
     const select = document.getElementById("operations");
     
     const resultBox = document.getElementById("result");
@@ -25,7 +31,11 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ fieldA, fieldB, operator })
+            body: JSON.stringify({
+                fieldA: parseFloat(fieldA),
+                fieldB: parseFloat(fieldB),
+                operator
+            })
         });
 
         const data = await response.json();
@@ -96,4 +106,14 @@ async function refreshOperations() {
         option.text = op.operator;
         select.appendChild(option);
     });
+}
+
+function limitLength(input, maxDigits) {
+    // Remove any character that isn't a digit, minus sign, or decimal point
+    input.value = input.value.replace(/[^0-9.\-]/g, '');
+
+    const digits = input.value.replace(/[^0-9]/g, '');
+    if (digits.length > maxDigits) {
+        input.value = input.value.slice(0, -1);
+    }
 }

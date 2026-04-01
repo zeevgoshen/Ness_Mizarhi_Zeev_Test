@@ -1,4 +1,5 @@
 using FluentValidation;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Ness_Mizarhi_Zeev_Test.Core.Data;
 using Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Calculate;
@@ -38,6 +39,26 @@ builder.Services.AddScoped<IReadDbContext>(provider =>
     provider.GetRequiredService<MathOperationsDbContext>());
 
 var app = builder.Build();
+
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        context.Response.StatusCode = 400;
+        context.Response.ContentType = "application/json";
+
+        var error = context.Features.Get<IExceptionHandlerFeature>();
+        if (error?.Error is ValidationException validationEx)
+        {
+            var errors = validationEx.Errors.Select(e => e.ErrorMessage);
+            await context.Response.WriteAsJsonAsync(new { errors });
+        }
+        else
+        {
+            await context.Response.WriteAsJsonAsync(new { errors = new[] { "An unexpected error occurred." } });
+        }
+    });
+});
 
 app.UseStaticFiles();
 app.UseRouting();

@@ -6,14 +6,8 @@
         private static readonly string[] ValidOperators = ["+", "-", "*", "/"];
         public CalculateOperationCommandValidator()
         {
-            RuleFor(x => x.FieldA)
-                .InclusiveBetween(int.MinValue, int.MaxValue)
-                .WithMessage("FieldA must be a valid integer.");
-
-            RuleFor(x => x.FieldB)
-                .InclusiveBetween(int.MinValue, int.MaxValue)
-                .WithMessage("FieldB must be a valid integer.");
-
+            // FieldA and FieldB are decimal — any value including 0 is valid, no rules needed.
+            // Operator must be present and one of the supported symbols.
             RuleFor(x => x.Operator)
                 .NotEmpty().WithMessage("Please specify an operator.")
                 .Must(op => ValidOperators.Contains(op))
