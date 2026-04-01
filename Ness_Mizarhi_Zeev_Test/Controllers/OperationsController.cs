@@ -13,7 +13,7 @@ namespace Ness_Mizarhi_Zeev_Test.Controllers
     public class OperationsController : ControllerBase
     {
 
-        private readonly IMediator? _mediator;
+        private readonly IMediator _mediator;
 
         public OperationsController(IMediator mediator)
         {
@@ -27,9 +27,8 @@ namespace Ness_Mizarhi_Zeev_Test.Controllers
             var result = await _mediator.Send(command);
 
             return CreatedAtAction(null,
-                //nameof(GetById),
-                new { id = result.Id },    // route values
-                result                     // response body
+                new { id = result.Id },
+                result
             );
         }
 

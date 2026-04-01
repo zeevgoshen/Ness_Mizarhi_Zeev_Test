@@ -4,13 +4,11 @@ using Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Create;
 
 namespace Ness_Mizarhi_Zeev_Test.Core.Data;
 
-public class MathOperationsDbContext : DbContext, IWriteDbContext
+public class MathOperationsDbContext : DbContext, IWriteDbContext, IReadDbContext
 {
     public MathOperationsDbContext(DbContextOptions<MathOperationsDbContext> options) : base(options) { }
 
     public DbSet<Operation> Operations { get; set; } = null!;
-
-    // add table Calculations...
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -21,16 +19,4 @@ public class MathOperationsDbContext : DbContext, IWriteDbContext
             b.Property(e => e.OperationName).HasMaxLength(100);
         });
     }
-
-    //// Returns all operations asynchronously
-    //public Task<List<Operation>> GetAllOperationsAsync(CancellationToken cancellationToken = default) =>
-    //    Operations
-    //        .AsNoTracking()
-    //        .ToListAsync(cancellationToken);
-
-    //// Synchronous convenience method
-    //public List<Operation> GetAllOperations() =>
-    //    Operations
-    //        .AsNoTracking()
-    //        .ToList();
 }

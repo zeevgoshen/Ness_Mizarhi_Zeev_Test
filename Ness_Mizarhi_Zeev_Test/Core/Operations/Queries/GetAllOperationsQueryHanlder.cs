@@ -7,9 +7,9 @@ namespace Ness_Mizarhi_Zeev_Test.Core.Operations.Queries
 {
     public class GetAllOperationsQueryHanlder : IRequestHandler<GetAllOperationsQuery, GetAllOperationsResponse>
     {
-        private readonly MathOperationsDbContext _db;
+        private readonly IReadDbContext _db;
 
-        public GetAllOperationsQueryHanlder(MathOperationsDbContext db)
+        public GetAllOperationsQueryHanlder(IReadDbContext db)
         {
             _db = db;
         }
@@ -17,7 +17,7 @@ namespace Ness_Mizarhi_Zeev_Test.Core.Operations.Queries
         {
             return new GetAllOperationsResponse
             {
-                Operators = await _db.Operations.ToListAsync()
+                Operators = await _db.Operations.AsNoTracking().ToListAsync(cancellationToken)
             };
         }
     }

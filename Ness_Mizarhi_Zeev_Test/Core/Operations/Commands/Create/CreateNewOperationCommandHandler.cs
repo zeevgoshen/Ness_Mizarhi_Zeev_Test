@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Ness_Mizarhi_Zeev_Test.Core.Data;
 using Ness_Mizarhi_Zeev_Test.Core.Models;
 using System.Collections.Generic;
 
@@ -32,18 +33,9 @@ namespace Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Create
 
             return new CreateNewOperationResponse
             {
-                
+                Id = operation.OperationId,
+                Operation = operation.Operator
             };
         }
-    }
-
-    /// <summary>
-    /// Abstraction of the write-side DbContext.
-    /// Provide an EF Core implementation in your Infrastructure layer.
-    /// </summary>
-    public interface IWriteDbContext
-    {
-        DbSet<Operation> Operations { get; }
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
