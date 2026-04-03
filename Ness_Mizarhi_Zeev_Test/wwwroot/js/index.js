@@ -11,6 +11,7 @@
 
     const fieldA = parseFloat(document.getElementById("FieldA").value);
     const fieldB = parseFloat(document.getElementById("FieldB").value);
+    const resultBox = document.getElementById("result");
 
     if (isNaN(fieldA) || isNaN(fieldB)) {
         resultBox.value = "Please enter valid numbers.";
@@ -18,12 +19,8 @@
     }
 
     const select = document.getElementById("operations");
-    
-    const resultBox = document.getElementById("result");
     resultBox.value = "";
-
     const operator = select.options[select.selectedIndex].innerText;
-
     
     try {
         const response = await fetch('/operations/Calculate', {
@@ -32,8 +29,8 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                fieldA: parseFloat(fieldA),
-                fieldB: parseFloat(fieldB),
+                fieldA: fieldA,
+                fieldB: fieldB,
                 operator
             })
         });
@@ -78,7 +75,8 @@ async function createOperator() {
     const data = await response.json();
 
     if (!response.ok) {
-        throw new Error("Failed to create item");
+        alert("Failed to create operator. Please try again.");
+        return;
     }
 
     document.getElementById("newOperator").value = "";
@@ -110,7 +108,10 @@ async function refreshOperations() {
 
 function limitLength(input, maxDigits) {
     // Remove any character that isn't a digit, minus sign, or decimal point
-    input.value = input.value.replace(/[^0-9.\-]/g, '');
+    input.value = input.value
+        .replace(/[^0-9.\-]/g, '')       // strip invalid chars
+        .replace(/(?!^)-/g, '')           // minus only allowed at start
+        .replace(/(\.\d*)\./g, '$1');     // only one decimal point allowed
 
     const digits = input.value.replace(/[^0-9]/g, '');
     if (digits.length > maxDigits) {

@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Ness_Mizarhi_Zeev_Test.Core.Models;
-using Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Create;
 
 namespace Ness_Mizarhi_Zeev_Test.Core.Data;
 

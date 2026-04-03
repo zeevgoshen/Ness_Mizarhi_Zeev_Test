@@ -1,7 +1,4 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Ness_Mizarhi_Zeev_Test.Core.Models;
-using System.Collections.Generic;
 
 namespace Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Calculate
 {
@@ -24,10 +21,10 @@ namespace Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Calculate
 
         public static bool TryCalculate(decimal fieldA, string op, decimal fieldB, out decimal result)
         {
+            result = 0;
+
             try
             {
-                result = 0;
-
                 result = op switch
                 {
                     "+" => fieldA + fieldB,
@@ -41,7 +38,7 @@ namespace Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Calculate
             }
             catch (Exception)
             {
-                throw;
+                return false;
             }
         }
     }

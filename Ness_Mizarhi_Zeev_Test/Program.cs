@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Ness_Mizarhi_Zeev_Test.Core.Data;
 using Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Calculate;
-using Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Create;
 using Ness_Mizarhi_Zeev_Test.Core.Validations;
 
 var builder = WebApplication.CreateBuilder(args);

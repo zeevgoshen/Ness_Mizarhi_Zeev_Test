@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Ness_Mizarhi_Zeev_Test.Core.Data;
 using Ness_Mizarhi_Zeev_Test.Core.Models;
-using System.Collections.Generic;
 
 namespace Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Create
 {
@@ -23,7 +22,7 @@ namespace Ness_Mizarhi_Zeev_Test.Core.Operations.Commands.Create
                 OperationName = request.Description?.Trim()
             };
 
-            bool exists = await _db.Operations.AnyAsync(x => x.Operator == operation.Operator);
+            bool exists = await _db.Operations.AnyAsync(x => x.Operator == operation.Operator, cancellationToken);
 
             if (!exists)
             {
