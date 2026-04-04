@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Ness_Mizarhi_Zeev_Test.Core.Data;
-using Ness_Mizarhi_Zeev_Test.Core.Models;
 
 namespace Ness_Mizarhi_Zeev_Test.Core.Operations.Queries
 {

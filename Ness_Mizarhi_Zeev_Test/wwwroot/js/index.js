@@ -37,6 +37,11 @@
 
         const data = await response.json();
 
+        if (data.result === null || data.result === undefined) {
+            resultBox.value = "Calculation failed (e.g. division by zero or bad operator).";
+            return;
+        }
+
         if (!response.ok) {
             resultBox.value = data.result ?? "Calculation failed";
             return;
@@ -71,8 +76,7 @@ async function createOperator() {
         body: JSON.stringify(item)
     });
 
-    console.log(response);
-    const data = await response.json();
+    await response.json();
 
     if (!response.ok) {
         alert("Failed to create operator. Please try again.");
